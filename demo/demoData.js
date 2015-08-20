@@ -1,11 +1,11 @@
 modelData = [{
-        src: "image1.png",
+        src: "images/image1.jpg",
         title: "image-one"
     },{
-        src: "image2",
+        src: "images/image2.jpg",
         title: "image-two"
     },{
-        src: "image3",
+        src: "images/image3.jpg",
         title: "image-three"
     }
 ];
