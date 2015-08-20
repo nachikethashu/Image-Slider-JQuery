@@ -11,6 +11,7 @@
         var rightArrow = $("<a/>", {class: "right-arrow"}).text(">>").css({'border-radius': '2px 0 0 2px', right: '0'});
 
         this.append(leftArrow).append(rightArrow);
+        this.find('a').css({userSelect: 'none'});
 
         $("a.left-arrow, a.right-arrow").css({
             position: 'absolute',
@@ -25,7 +26,7 @@
             'text-decoration': 'none',
             'font-weight': '600',
             'font-size': '18px',
-            opacity: '0.8',
+            opacity: '0.6',
             cursor: 'pointer'
         });
 
@@ -36,8 +37,21 @@
             'list-style': 'none'
         });
 
-        for (var i = data.length - 1; i >= 0; i--) {
-            ul.append($("<li/>").append('<img src='+ data[i].src +'>'));
+        for (var i = 0; i < data.length; i++) {
+            ul.append($("<li/>").css({
+                'background-image': 'url(' + data[i].src + ')',
+                'background-repeat': 'no-repeat',
+                'background-size': 'contain',
+                'background-position': 'center'
+            }).append($('<footer/>').text(data[i].title).css({
+                position: 'absolute',
+                bottom: '0',
+                'text-align': 'center',
+                width: '100%',
+                padding: '5px 0',
+                'background-color': 'rgba(85, 86, 86, 0.4)',
+                'font-weight': 'bold'
+            })));
         }
 
         ul.appendTo(this);
@@ -45,11 +59,8 @@
             position: 'relative',
             display: 'block',
             'float': 'left',
-            margin: '0',
-            padding: '0',
-            background: '#ccc',
-            'text-align': 'center',
-            'line-height': '300px'
+            width: this.width(),
+            height: this.height()
         });
 
         var slideCount = this.find('ul li').length;
@@ -59,9 +70,9 @@
 
         this.css({ width: slideWidth, height: slideHeight });
 
-        this.children("ul").css({ width: sliderUlWidth});
+        this.children("ul").css({ width: sliderUlWidth, marginLeft: -slideWidth});
 
-        this.find('ul li:last-child').prependTo(this.find('ul'));
+        elem.find('ul li:last-child').prependTo($('ul'));
 
         function moveLeft() {
             elem.find('ul').animate({
