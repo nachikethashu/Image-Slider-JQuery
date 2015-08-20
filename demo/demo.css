@@ -1,0 +1,11 @@
+h1 {
+    text-align: center;
+}
+
+#sliderStage {
+    width: 600px;
+    height: 400px;
+    margin: auto;
+
+    border: 1px solid black;
+}
