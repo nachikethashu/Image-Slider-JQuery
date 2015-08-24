@@ -2,6 +2,8 @@
  * imageSlider.jquery.js
  *
  * By Nachiketha S H Upadhya
+ * https://github.com/nachikethashu/Image-Slider-JQuery
+ *
  * Free to use under the MIT license.
  *
  * Aug 2015
