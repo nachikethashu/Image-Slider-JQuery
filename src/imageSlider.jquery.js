@@ -85,7 +85,7 @@
 
         this.children("ul").css({ width: sliderUlWidth, marginLeft: -slideWidth});
 
-        elem.find('ul li:last-child').prependTo($('ul'));
+        elem.find('ul li:last-child').prependTo(ulElem);
 
         this.moveLeft = function() {
             ulElem.animate({
