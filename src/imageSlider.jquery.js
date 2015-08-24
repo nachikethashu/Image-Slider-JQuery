@@ -1,3 +1,12 @@
+/**
+ * imageSlider.jquery.js
+ *
+ * By Nachiketha S H Upadhya
+ * Free to use under the MIT license.
+ *
+ * Aug 2015
+ */
+
 (function( $ ) {
 
     $.fn.imageSlider = function(data) {
@@ -18,7 +27,7 @@
             top: '40%',
             'z-index': '999',
             display: 'block',
-            padding: '4% 3%',
+            padding: '4% 2%',
             width: 'auto',
             height: 'auto',
             background: '#2a2a2a',
