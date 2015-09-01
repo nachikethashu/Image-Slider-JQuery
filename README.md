@@ -9,3 +9,6 @@ demo/index.html gives you the idea of the plugin.
 declare a holder element and call the plugin upon it:
   * eg:  $("#sliderStage").imageSlider(modelData)
   * modelData being an array of objects having src and title info.
+
+#Demo
+Live [demo here](https://rawgit.com/nachikethashu/Image-Slider-JQuery/master/demo/index.html)
