@@ -109,11 +109,11 @@
             return this;
         };
 
-        $('a.left-arrow').click(function () {
+        $(this).find('a.left-arrow').click(function () {
             elem.moveLeft();
         });
 
-        $('a.right-arrow').click(function () {
+        $(this).find('a.right-arrow').click(function () {
             elem.moveRight();
         });
 
