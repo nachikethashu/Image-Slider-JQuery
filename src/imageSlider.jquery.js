@@ -112,10 +112,12 @@
         };
 
         $(this).find('a.left-arrow').click(function () {
+            /*jshint -W030 */
             !singleImgFlag && elem.moveLeft();
         });
 
         $(this).find('a.right-arrow').click(function () {
+            /*jshint -W030 */
             !singleImgFlag && elem.moveRight();
         });
 
