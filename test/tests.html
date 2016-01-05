@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JQuery Slider Tests</title>
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.20.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+  <script type="text/javascript" src="../src/imageSlider.jquery.js"></script>
+  <script>
+    QUnit.module("imageSlider");
+    QUnit.test('Chainable', function(assert) {
+      var container = $('<div></div>');
+      assert.ok(container.imageSlider([]).addClass("testing"), "can be chained");
+      assert.equal(container.hasClass("testing"), true, "class was added correctly from chaining");
+    });
+
+    QUnit.test('moveLeft api', function(assert) {
+      var container = $('<div></div>'),
+          modelData = [{},{},{}],
+          done = assert.async();
+
+      var slider = container.imageSlider(modelData).moveLeft();
+      slider.on("slide", function (event, val) {
+        assert.equal(val, modelData.length, "moveLeft working fine");
+        done();
+      });
+
+    });
+
+    QUnit.test('multiple moveRight api test', function(assert) {
+      assert.expect( 2 );
+      var container = $('<div></div>'),
+          modelData = [{},{},{},{}],
+          done = assert.async(2);
+
+      var slider = container.imageSlider(modelData).moveRight().moveRight();
+      slider.on("slide", function (event, val) {
+        assert.ok(true, "calling moveRight twice");
+        done();
+      });
+    });
+
+    QUnit.test('moveRight api', function(assert) {
+      var container = $('<div></div>'),
+          modelData = [{},{},{}],
+          done = assert.async();
+
+      var slider = container.imageSlider(modelData).moveRight();
+      slider.on("slide", function (event, val) {
+        assert.equal(val, 2, "moveRight working fine");
+        done();
+      });
+    });
+  </script>
+</body>
+</html>

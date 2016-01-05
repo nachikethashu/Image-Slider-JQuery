@@ -12,7 +12,14 @@
 (function( $ ) {
 
     $.fn.imageSlider = function(data) {
-        var elem = this;
+
+        if (!data || !data.length) {
+            console.error('imageSlider: Invalid data OR Empty data input');
+            return this;
+        }
+
+        var elem = this,
+            singleImgFlag = (data.length <= 1)? true: false;
         this.css({
             position: 'relative',
             overflow: 'hidden'
@@ -47,8 +54,6 @@
             padding: '0',
             'list-style': 'none'
         });
-
-        var singleImgFlag = (data.length === 1)? true: false;
 
         for (var i = 0; i < data.length; i++) {
             ul.append($("<li/>", { value: i+1 }).css({

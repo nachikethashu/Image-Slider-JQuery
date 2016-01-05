@@ -14,11 +14,11 @@
 
         <script type="text/javascript">
             $( document ).ready(function() {
-                slider = $("#sliderStage").imageSlider(modelData);
+                var slider = $("#sliderStage").imageSlider(modelData);
 
                 slider.on("slide", function (event, val) {
                     console.log("slided to image num: " + val);
-                })
+                });
             });
         </script>
 
