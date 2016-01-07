@@ -19,6 +19,15 @@ module.exports = function(grunt) {
         qunit: {
             files: ['test/*.html']
         },
+        watch: {
+            scripts: {
+                files: ['**/*.js'],
+                tasks: ['jshint', 'uglify'],
+                options: {
+                    spawn: false,
+                },
+            },
+        },
     });
 
     // Load the plugin that provides the "jshint" task.
@@ -29,6 +38,9 @@ module.exports = function(grunt) {
 
     // Load the plugin that provides the "qunit" task.
     grunt.loadNpmTasks('grunt-contrib-qunit');
+
+    // Load the plugin that provides the "watch" task.
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
     grunt.registerTask('default', ['jshint', 'uglify', 'qunit']);
