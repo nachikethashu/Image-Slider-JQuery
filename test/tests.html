@@ -56,6 +56,16 @@
         done();
       });
     });
+
+    QUnit.test('Add Custom activeBulletClass', function(assert) {
+      var container = $('<div></div>'),
+          modelData = [{},{},{}],
+          options = {showBullets: true};
+
+      var slider = container.imageSlider(modelData, options);
+      slider.setActiveBulletStyles('border: 2px solid brown');
+      assert.equal(slider.activeBulletClass, 'border: 2px solid brown', 'active bullet styles set properly');
+    });
   </script>
 </body>
 </html>

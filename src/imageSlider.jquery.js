@@ -11,15 +11,28 @@
 
 (function( $ ) {
 
-    $.fn.imageSlider = function(data) {
+    $.fn.imageSlider = function(data, options) {
 
         if (!data || !data.length) {
             console.error('imageSlider: Invalid data OR Empty data input');
             return this;
         }
 
+        var settings = $.extend({
+            showBullets: false
+        }, options);
+
         var elem = this,
             singleImgFlag = (data.length <= 1)? true: false;
+
+        this.setActiveBulletStyles = function (classDef) {
+            this.activeBulletClass = classDef;
+            _injectClasses('.activeBullet {' + classDef + '}');
+        };
+
+        this.activeBulletClass = 'border: 2px solid silver; width: 12px; height: 12px; box-shadow: 0px 2px 4px rgba(0,0,0,0.5);';
+        this.setActiveBulletStyles(this.activeBulletClass);
+
         this.css({
             position: 'relative',
             overflow: 'hidden'
@@ -95,23 +108,31 @@
         elem.find('ul li:last-child').prependTo(ulElem);
 
         this.moveLeft = function() {
+            var slidedIndex;
             ulElem.animate({
                 left: + slideWidth
             }, 200, function () {
+                /*jshint -W030 */
                 elem.find('ul li:last-child').prependTo(ulElem);
                 ulElem.css('left', '');
-                $(elem).trigger("slide", elem.find( "ul li:nth-child(2)" ).val());
+                slidedIndex = elem.find( "ul li:nth-child(2)" ).val();
+                $(elem).trigger("slide", slidedIndex);
+                settings.showBullets && _setActiveBullet(slidedIndex);
             });
             return this;
         };
 
         this.moveRight = function() {
+            var slidedIndex;
             ulElem.animate({
                 left: - slideWidth
             }, 200, function () {
+                /*jshint -W030 */
                 elem.find('ul li:first-child').appendTo(ulElem);
                 ulElem.css('left', '');
-                $(elem).trigger("slide", elem.find( "ul li:nth-child(2)" ).val());
+                slidedIndex = elem.find( "ul li:nth-child(2)" ).val();
+                $(elem).trigger("slide", slidedIndex);
+                settings.showBullets && _setActiveBullet(slidedIndex);
             });
             return this;
         };
@@ -125,6 +146,46 @@
             /*jshint -W030 */
             !singleImgFlag && elem.moveRight();
         });
+
+        if (settings.showBullets) {
+            _addBullets();
+        }
+
+        // based on https://css-tricks.com/snippets/javascript/inject-new-css-rules/
+        function _injectClasses(rule) {
+            var div = $("<div />", {
+                html: '&shy;<style>' + rule + '</style>'
+            }).appendTo("body");
+        }
+
+        function _addBullets() {
+            var bulletsHolder=
+                $('<div/>', {id: 'bulletsHolder'}).css({
+                    position: 'absolute',
+                    bottom: '30px',
+                    'text-align': 'center',
+                    'z-index': '999',
+                    width: '100%'
+                });
+            for (var i = 0; i < data.length; i++) {
+                bulletsHolder.append($('<div/>', {value: i+1}).css({
+                    'background-color': 'silver',
+                    display: 'inline-block',
+                    height: '10px',
+                    width: '10px',
+                    margin: '0 4px 0 4px',
+                    'border-radius': '50%'
+                }).data('index', i+1));
+            }
+
+            elem.append(bulletsHolder);
+            _setActiveBullet(1);     // initialise 1st bullet as active
+        }
+
+        function _setActiveBullet(slidedIndex) {
+            $('#bulletsHolder *').removeClass('activeBullet');
+            $('#bulletsHolder').find('div[value=' + slidedIndex + ']').addClass('activeBullet');
+        }
 
         return this;
     };

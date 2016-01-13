@@ -14,7 +14,11 @@
 
         <script type="text/javascript">
             $( document ).ready(function() {
-                var slider = $("#sliderStage").imageSlider(modelData);
+                var options = {
+                    showBullets: true
+                };
+                var slider = $("#sliderStage").imageSlider(modelData, options);
+                slider.setActiveBulletStyles('border: 1px solid grey');     // optional
 
                 slider.on("slide", function (event, val) {
                     console.log("slided to image num: " + val);

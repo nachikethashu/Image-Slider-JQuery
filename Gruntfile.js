@@ -10,6 +10,9 @@ module.exports = function(grunt) {
             }
         },
         uglify: {
+            options: {
+                banner: '/* imageSlider.jquery.js \n * @author Nachiketha S H Upadhya <nachikethashu@gmail.com>\n */\n'
+            },
             my_target: {
                 files: {
                     'dist/imageSlider.jquery.min.js': ['src/*.js']
