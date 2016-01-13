@@ -19,10 +19,11 @@
         }
 
         var settings = $.extend({
-            showBullets: false
+            showBullets: false,
+            startIndex: 1
         }, options);
 
-        var elem = this,
+        var elem = this, slideWidth, slideHeight, ulElem,
             singleImgFlag = (data.length <= 1)? true: false;
 
         this.setActiveBulletStyles = function (classDef) {
@@ -68,44 +69,59 @@
             'list-style': 'none'
         });
 
-        for (var i = 0; i < data.length; i++) {
-            ul.append($("<li/>", { value: i+1 }).css({
-                'background-image': 'url(' + data[i].src + ')',
+        _buildSlides(settings.startIndex);
+
+        function _buildSlides(startIndex) {
+            var i, len = data.length;
+            for (i = startIndex-1; i < len; i++) {
+                ul.append(_getSlide(i));
+            }
+            // append remaining first set of slides
+            for (i = 0; i < startIndex-1; i++) {
+                ul.append(_getSlide(i));
+            }
+
+            ul.appendTo(elem);
+            ulElem = elem.find('ul');
+
+            elem.find("li").css({
+                position: 'relative',
+                display: 'block',
+                'float': 'left',
+                width: elem.width(),
+                height: elem.height()
+            });
+
+            slideWidth = elem.width();
+            slideHeight = elem.height();
+
+            var slideCount = elem.find('ul li').length,
+                sliderUlWidth = slideCount * slideWidth;
+
+            elem.css({ width: slideWidth, height: slideHeight });
+
+            elem.children("ul").css({ width: sliderUlWidth, marginLeft: (singleImgFlag? 0 : -slideWidth)});
+
+            elem.find('ul li:last-child').prependTo(ulElem);
+        }
+
+        function _getSlide (index) {
+            var li = $("<li/>", { value: index+1 }).css({
+                'background-image': 'url(' + data[index].src + ')',
                 'background-repeat': 'no-repeat',
                 'background-size': 'contain',
                 'background-position': 'center'
-            }).append($('<footer/>').text(data[i].title).css({
-                position: 'absolute',
-                bottom: '0',
+            }).append($('<footer/>').text(data[index].title).css({
+                'position': 'absolute',
+                'bottom': '0',
                 'text-align': 'center',
-                width: '100%',
-                padding: '5px 0',
+                'width': '100%',
+                'padding': '5px 0',
                 'background-color': 'rgba(85, 86, 86, 0.4)',
                 'font-weight': 'bold'
-            })));
+            }));
+            return li;
         }
-
-        ul.appendTo(this);
-        var ulElem = elem.find('ul');
-
-        this.find("li").css({
-            position: 'relative',
-            display: 'block',
-            'float': 'left',
-            width: this.width(),
-            height: this.height()
-        });
-
-        var slideCount = this.find('ul li').length;
-        var slideWidth = this.width();
-        var slideHeight = this.height();
-        var sliderUlWidth = slideCount * slideWidth;
-
-        this.css({ width: slideWidth, height: slideHeight });
-
-        this.children("ul").css({ width: sliderUlWidth, marginLeft: (singleImgFlag? 0 : -slideWidth)});
-
-        elem.find('ul li:last-child').prependTo(ulElem);
 
         this.moveLeft = function() {
             var slidedIndex;
@@ -179,13 +195,20 @@
             }
 
             elem.append(bulletsHolder);
-            _setActiveBullet(1);     // initialise 1st bullet as active
+            _setActiveBullet(settings.startIndex);     // initialise 1st bullet as active
         }
 
         function _setActiveBullet(slidedIndex) {
             $('#bulletsHolder *').removeClass('activeBullet');
             $('#bulletsHolder').find('div[value=' + slidedIndex + ']').addClass('activeBullet');
         }
+
+        $('#bulletsHolder div').click(function() {
+            var index = $(this).data().index;
+            ulElem.empty();
+            _buildSlides(index);
+            _setActiveBullet(index);
+        });
 
         return this;
     };
