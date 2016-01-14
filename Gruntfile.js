@@ -1,3 +1,4 @@
+var mozjpeg = require('imagemin-mozjpeg');
 module.exports = function(grunt) {
 
     // Project configuration.
@@ -31,6 +32,21 @@ module.exports = function(grunt) {
                 },
             },
         },
+        imagemin: {
+            dynamic: {
+                options: {
+                    optimizationLevel: 3,
+                    svgoPlugins: [{ removeViewBox: false }],
+                    use: [mozjpeg()]
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'demo/images/',
+                    src: ['*.{png,jpg,gif}'],
+                    dest: 'demo/images/'
+                }]
+            }
+        }
     });
 
     // Load the plugin that provides the "jshint" task.
@@ -44,6 +60,9 @@ module.exports = function(grunt) {
 
     // Load the plugin that provides the "watch" task.
     grunt.loadNpmTasks('grunt-contrib-watch');
+
+    //image compressor
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
 
     // Default task(s).
     grunt.registerTask('default', ['jshint', 'uglify', 'qunit']);
