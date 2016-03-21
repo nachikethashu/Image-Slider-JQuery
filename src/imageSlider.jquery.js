@@ -98,8 +98,6 @@
             var slideCount = elem.find('ul li').length,
                 sliderUlWidth = slideCount * slideWidth;
 
-            elem.css({ width: slideWidth, height: slideHeight });
-
             elem.children("ul").css({ width: sliderUlWidth, marginLeft: (singleImgFlag? 0 : -slideWidth)});
 
             elem.find('ul li:last-child').prependTo(ulElem);
@@ -107,7 +105,7 @@
 
         function _getSlide (index) {
             var li = $("<li/>", { value: index+1 }).css({
-                'background-image': 'url(' + data[index].src + ')',
+                'background-image': "url('" + data[index].src + "')",
                 'background-repeat': 'no-repeat',
                 'background-size': 'contain',
                 'background-position': 'center'
